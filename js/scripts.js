@@ -3,8 +3,9 @@
 async function getUsers(url) {
     try {
         const response = fetch(url);
-        const randomUsers = (await response).json();
-        console.log(randomUsers);
+        const userJSON = (await response).json();
+        const randomUsers = (await userJSON).results;
+        displayUsers(randomUsers);
     } catch (error) {
         console.log('Something went wrong...', error);
     }
@@ -18,7 +19,21 @@ function displayUsers(randomUsers) {
     // city is at objlocation.city
     // full address: obj.location.street.number + obj.location.street.name, 
     //               obj.location.city, obj.location.state, obj.location.country, obj.logcation.postcode
+    randomUsers.forEach(user => {
+        const userHTML = `
+            <div class="card">
+                <div class="card-img-container">
+                    <img class="card-img" src="${user.picture.thumbnail}" alt="profile picture">
+                </div>
+                <div class="card-info-container">
+                    <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
+                    <p class="card-text">${user.email}</p>
+                    <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
+                </div>
+            </div>
+        `
+        document.querySelector('#gallery').insertAdjacentHTML('beforeend', userHTML);
+    })
 
-    
 }
 getUsers('https://randomuser.me/api/?results=12');
