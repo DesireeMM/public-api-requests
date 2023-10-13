@@ -9,7 +9,7 @@ searchBox.insertAdjacentHTML('beforeend', `<form id="emp-search" action="#" meth
 <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
 </form>`);
 
-// Get and display 12 random users
+// GET and display 12 random users
 async function getUsers(url) {
     try {
         const response = fetch(url);
@@ -19,22 +19,6 @@ async function getUsers(url) {
     } catch (error) {
         console.log('Something went wrong...', error);
     }
-}
-
-function getUserHTML(user) {
-    const userHTML = `
-            <div class="card">
-                <div class="card-img-container">
-                    <img class="card-img" src="${user.picture.thumbnail}" alt="profile picture">
-                </div>
-                <div class="card-info-container">
-                    <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
-                    <p class="card-text">${user.email}</p>
-                    <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
-                </div>
-            </div>
-        `
-    return userHTML;
 }
 
 function displayUsers(randomUsers) {
@@ -57,12 +41,28 @@ function formatBirthday(dob){
     return formattedBirthday;
 }
 
-// function to display a modal container with clicked user's information
-function displayModal(user) {
+// get HTML strings
+function getUserHTML(user) {
+    const userHTML = `
+            <div class="card">
+                <div class="card-img-container">
+                    <img class="card-img" src="${user.picture.thumbnail}" alt="profile picture">
+                </div>
+                <div class="card-info-container">
+                    <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
+                    <p class="card-text">${user.email}</p>
+                    <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
+                </div>
+            </div>
+        `
+    return userHTML;
+}
+
+function getModalHTML(user) {
     const userAddress = formatAddress(user);
     const userBirthday = formatBirthday(user.dob.date)
     const userData = {...user, 'fullAddress': userAddress, 'birthday': userBirthday}
-    const modal = `
+    const modalHTML = `
     <div class="modal-container">
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -77,13 +77,48 @@ function displayModal(user) {
                 <p class="modal-text">Birthday: ${userData.birthday}</p>
             </div>
         </div>
+        <div class="modal-btn-container">
+            <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+            <button type="button" id="modal-next" class="modal-next btn">Next</button>
+        </div>
     </div>
     `
+    return modalHTML;
+}
+
+// function to get indexOf current modal user
+function getModalIndex(user){
+    return randomUsers.indexOf(user);
+}
+
+// function to display a modal container with clicked user's information
+function displayModal(user) {
+    const modal = getModalHTML(user);
     gallery.insertAdjacentHTML('beforeend', modal);
+    
+    // event listener to close modal
     const closeBtn = document.querySelector('#modal-close-btn');
     closeBtn.addEventListener('click', () => {
         gallery.lastElementChild.remove();
     })
+
+    const currIndex = getModalIndex(user);
+    // event listeners for prev/next buttons
+    const prevBtn = document.getElementById('modal-prev');
+    prevBtn.addEventListener('click', () => {
+        if (currIndex - 1 >= 0) {
+            gallery.lastElementChild.remove();
+            displayModal(randomUsers[currIndex - 1]);
+        }
+    })
+    const nextBtn = document.getElementById('modal-next');
+    nextBtn.addEventListener('click', () => {
+        if (currIndex + 1 < randomUsers.length) {
+            gallery.lastElementChild.remove();
+            displayModal(randomUsers[currIndex + 1]);
+        }
+    })
+    
 }
 
 getUsers('https://randomuser.me/api/?nat=us&results=12');
@@ -113,3 +148,9 @@ document.getElementById('emp-search').onsubmit = (evt) => {
     gallery.innerHTML = '';
     displayUsers(filteredUsers);
 }
+
+// things to address
+// going back to all cards after searching
+// uncaught type error when clicking buttons, most likely due to gallery event listener
+// make changes to CSS
+// make README
