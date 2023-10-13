@@ -1,4 +1,4 @@
-# Treehouse FSJS Techdegree Unit 4 Project
+# Treehouse FSJS Techdegree Unit 5 Project
 
 Learn more about the developer on [LinkedIn](https://www.linkedin.com/in/desiree-morimoto-9470481b0/)
 
@@ -44,4 +44,4 @@ As an added challenge, I've changed up some of the default styling.
   - I changed my H1 font size from 1.25em to 2.5em, as the new font was smaller.
   - I changed the font of the H3 for employee name on the modal container to Bebas Neue.
     - I also changed the font size to 2em.
-  - I added top padding of 1.5% to the search container to make the element appear more inline with the H1.
+- I added top padding of 1.5% to the search container to make the element appear more inline with the H1.
