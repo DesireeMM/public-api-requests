@@ -1,6 +1,13 @@
 // selected elements for later use
 let RandomUsers = [];
 const gallery = document.getElementById('gallery');
+const searchBox = document.querySelector('.search-container');
+
+// adding a search feature
+searchBox.insertAdjacentHTML('beforeend', `<form id="emp-search" action="#" method="GET">
+<input type="search" id="search-input" class="search-input" placeholder="Search...">
+<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+</form>`);
 
 // Get and display 12 random users
 async function getUsers(url) {
@@ -14,9 +21,8 @@ async function getUsers(url) {
     }
 }
 
-function displayUsers(randomUsers) {
-    randomUsers.forEach(user => {
-        const userHTML = `
+function getUserHTML(user) {
+    const userHTML = `
             <div class="card">
                 <div class="card-img-container">
                     <img class="card-img" src="${user.picture.thumbnail}" alt="profile picture">
@@ -28,7 +34,12 @@ function displayUsers(randomUsers) {
                 </div>
             </div>
         `
-        gallery.insertAdjacentHTML('beforeend', userHTML);
+    return userHTML;
+}
+
+function displayUsers(randomUsers) {
+    randomUsers.forEach(user => {
+        gallery.insertAdjacentHTML('beforeend', getUserHTML(user));
     })
 }
 
@@ -88,3 +99,17 @@ gallery.addEventListener('click', (evt) => {
     });
     displayModal(user);
 })
+
+document.getElementById('emp-search').onsubmit = (evt) => {
+    evt.preventDefault();
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const filteredUsers = [];
+    randomUsers.forEach(user => {
+        console.log(user.name);
+        if (user.name.first.toLowerCase().includes(searchInput) || user.name.last.toLowerCase().includes(searchInput)) {
+            filteredUsers.push(user);
+        }
+    })
+    gallery.innerHTML = '';
+    displayUsers(filteredUsers);
+}
