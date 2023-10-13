@@ -150,7 +150,18 @@ document.getElementById('emp-search').onsubmit = (evt) => {
 }
 
 // things to address
-// going back to all cards after searching
+// search related 
+    // going back to all cards after searching
+        // can go back by emptying the search input and clicking submit again
+        // may be better to use keyup instead of submit?
+    // handling no results
+        // add in "No results found" message
 // uncaught type error when clicking buttons, most likely due to gallery event listener
+    // ask Treehouse
 // make changes to CSS
+    // changed font family from Nunito to combo of Bebas Neue and Montserrat
+    // changed h1 font size from 1.25em to 2.5em
+    // changed modal card name font to Bebas Neue
+    // changed modal card name font size to 2em
+    // added top padding to search container to make it appear more inline with h1
 // make README
