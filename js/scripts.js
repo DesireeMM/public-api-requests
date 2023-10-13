@@ -132,13 +132,15 @@ getUsers('https://randomuser.me/api/?nat=us&results=12');
 // event listeners
 gallery.addEventListener('click', (evt) => {
     const card = evt.target.closest('.card');
-    const userName = card.querySelector('#name').textContent;
-    const user = randomUsers.find(user => {
-        if (userName.includes(user.name.first) && userName.includes(user.name.last)) {
-            return user;
-        }
-    });
-    displayModal(user);
+    if (card) {
+        const userName = card.querySelector('#name').textContent;
+        const user = randomUsers.find(user => {
+            if (userName.includes(user.name.first) && userName.includes(user.name.last)) {
+                return user;
+            }
+        });
+        displayModal(user);
+    }
 })
 
 document.getElementById('emp-search').onsubmit = (evt) => {
@@ -163,5 +165,3 @@ document.getElementById('emp-search').onsubmit = (evt) => {
     // going back to all cards after searching
         // can go back by emptying the search input and clicking submit again
         // may be better to use keyup instead of submit?
-// uncaught type error when clicking buttons, most likely due to gallery event listener
-    // ask Treehouse
