@@ -15,13 +15,6 @@ async function getUsers(url) {
 }
 
 function displayUsers(randomUsers) {
-    // randomUsers is an array of objects
-    // thumbnail is at obj.picture.thumbnail (also has large and medium)
-    // name is at obj.name.first, obj.name.last (also has title)
-    // email is at obj.email
-    // city is at objlocation.city
-    // full address: obj.location.street.number + obj.location.street.name, 
-    //               obj.location.city, obj.location.state, obj.location.country, obj.location.postcode
     randomUsers.forEach(user => {
         const userHTML = `
             <div class="card">
@@ -40,10 +33,6 @@ function displayUsers(randomUsers) {
 }
 
 // formatting functions
-function formatCell(cell) {
-    // regex formatting on user.cell
-    return null;
-}
 function formatAddress(user) {
     const address = `${user.location.street.number} ${user.location.street.name}, 
                     ${user.location.city}, ${user.location.state} ${user.location.postcode}
@@ -51,15 +40,17 @@ function formatAddress(user) {
     return address
 }
 function formatBirthday(dob){
-    // regex formatting on user.dob.date
-    return null;
+    const dobRegex = /^(\d{4})-(\d{2})-(\d{2})/
+    const birthday = dob.match(dobRegex);
+    const formattedBirthday = `${birthday[2]}/${birthday[3]}/${birthday[1]}`
+    return formattedBirthday;
 }
 
+// function to display a modal container with clicked user's information
 function displayModal(user) {
-    const userPhone = formatCell(user.cell);
     const userAddress = formatAddress(user);
     const userBirthday = formatBirthday(user.dob.date)
-    const userData = {...user, 'cellphone': userPhone, 'fullAddress': userAddress, 'birthday': userBirthday}
+    const userData = {...user, 'fullAddress': userAddress, 'birthday': userBirthday}
     const modal = `
     <div class="modal-container">
         <div class="modal">
@@ -70,7 +61,7 @@ function displayModal(user) {
                 <p class="modal-text">${user.email}</p>
                 <p class="modal-text cap">${user.location.city}</p>
                 <hr>
-                <p class="modal-text">${userData.cellphone}</p>
+                <p class="modal-text">${user.cell}</p>
                 <p class="modal-text">${userData.fullAddress}</p>
                 <p class="modal-text">Birthday: ${userData.birthday}</p>
             </div>
@@ -84,7 +75,7 @@ function displayModal(user) {
     })
 }
 
-getUsers('https://randomuser.me/api/?results=12');
+getUsers('https://randomuser.me/api/?nat=us&results=12');
 
 // event listeners
 gallery.addEventListener('click', (evt) => {
