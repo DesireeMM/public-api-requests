@@ -8,7 +8,6 @@ async function getUsers(url) {
         const response = fetch(url);
         const userJSON = (await response).json();
         randomUsers = (await userJSON).results;
-        console.log(randomUsers);
         displayUsers(randomUsers);
     } catch (error) {
         console.log('Something went wrong...', error);
@@ -46,7 +45,7 @@ function formatCell(cell) {
     return null;
 }
 function formatAddress(user) {
-    const address = `${user.location.street.number} ${user.location.street.name},
+    const address = `${user.location.street.number} ${user.location.street.name}, 
                     ${user.location.city}, ${user.location.state} ${user.location.postcode}
                     `
     return address
@@ -79,7 +78,10 @@ function displayModal(user) {
     </div>
     `
     gallery.insertAdjacentHTML('beforeend', modal);
-
+    const closeBtn = document.querySelector('#modal-close-btn');
+    closeBtn.addEventListener('click', () => {
+        gallery.lastElementChild.remove();
+    })
 }
 
 getUsers('https://randomuser.me/api/?results=12');
