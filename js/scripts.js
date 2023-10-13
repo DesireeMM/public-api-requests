@@ -109,6 +109,9 @@ function displayModal(user) {
         if (currIndex - 1 >= 0) {
             gallery.lastElementChild.remove();
             displayModal(randomUsers[currIndex - 1]);
+        } else {
+            gallery.lastElementChild.remove();
+            displayModal(randomUsers[11]);
         }
     })
     const nextBtn = document.getElementById('modal-next');
@@ -116,6 +119,9 @@ function displayModal(user) {
         if (currIndex + 1 < randomUsers.length) {
             gallery.lastElementChild.remove();
             displayModal(randomUsers[currIndex + 1]);
+        } else {
+            gallery.lastElementChild.remove();
+            displayModal(randomUsers[0]);
         }
     })
     
@@ -140,13 +146,16 @@ document.getElementById('emp-search').onsubmit = (evt) => {
     const searchInput = document.getElementById('search-input').value.toLowerCase();
     const filteredUsers = [];
     randomUsers.forEach(user => {
-        console.log(user.name);
         if (user.name.first.toLowerCase().includes(searchInput) || user.name.last.toLowerCase().includes(searchInput)) {
             filteredUsers.push(user);
         }
     })
     gallery.innerHTML = '';
-    displayUsers(filteredUsers);
+    if (filteredUsers.length > 0) {
+        displayUsers(filteredUsers);
+    } else {
+        gallery.insertAdjacentHTML('afterbegin', `<h3>No employees match your search. Please try again.</h3>`)
+    }
 }
 
 // things to address
@@ -154,14 +163,5 @@ document.getElementById('emp-search').onsubmit = (evt) => {
     // going back to all cards after searching
         // can go back by emptying the search input and clicking submit again
         // may be better to use keyup instead of submit?
-    // handling no results
-        // add in "No results found" message
 // uncaught type error when clicking buttons, most likely due to gallery event listener
     // ask Treehouse
-// make changes to CSS
-    // changed font family from Nunito to combo of Bebas Neue and Montserrat
-    // changed h1 font size from 1.25em to 2.5em
-    // changed modal card name font to Bebas Neue
-    // changed modal card name font size to 2em
-    // added top padding to search container to make it appear more inline with h1
-// make README
