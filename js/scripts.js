@@ -41,7 +41,7 @@ function formatBirthday(dob){
     return formattedBirthday;
 }
 
-// get HTML strings
+// functions to get HTML strings
 function getUserHTML(user) {
     const userHTML = `
             <div class="card">
@@ -143,8 +143,12 @@ gallery.addEventListener('click', (evt) => {
     }
 })
 
-document.getElementById('emp-search').onsubmit = (evt) => {
-    evt.preventDefault();
+document.getElementById('emp-search').addEventListener('keyup', (evt) => {
+    searchUsers(randomUsers);
+})
+
+// search function
+function searchUsers(randomUsers) {
     const searchInput = document.getElementById('search-input').value.toLowerCase();
     const filteredUsers = [];
     randomUsers.forEach(user => {
@@ -159,9 +163,3 @@ document.getElementById('emp-search').onsubmit = (evt) => {
         gallery.insertAdjacentHTML('afterbegin', `<h3>No employees match your search. Please try again.</h3>`)
     }
 }
-
-// things to address
-// search related 
-    // going back to all cards after searching
-        // can go back by emptying the search input and clicking submit again
-        // may be better to use keyup instead of submit?
