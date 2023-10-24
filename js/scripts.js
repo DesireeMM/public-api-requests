@@ -1,5 +1,5 @@
 // selected elements for later use
-let RandomUsers = [];
+let randomUsers = [];
 const gallery = document.getElementById('gallery');
 const searchBox = document.querySelector('.search-container');
 
@@ -12,9 +12,9 @@ searchBox.insertAdjacentHTML('beforeend', `<form id="emp-search" action="#" meth
 // GET and display 12 random users
 async function getUsers(url) {
     try {
-        const response = fetch(url);
-        const userJSON = (await response).json();
-        randomUsers = (await userJSON).results;
+        const response = await fetch(url);
+        const userJSON = await response.json();
+        randomUsers = userJSON.results;
         displayUsers(randomUsers);
     } catch (error) {
         console.log('Something went wrong...', error);
@@ -46,7 +46,7 @@ function getUserHTML(user) {
     const userHTML = `
             <div class="card">
                 <div class="card-img-container">
-                    <img class="card-img" src="${user.picture.thumbnail}" alt="profile picture">
+                    <img class="card-img" src="${user.picture.large}" alt="profile picture">
                 </div>
                 <div class="card-info-container">
                     <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
