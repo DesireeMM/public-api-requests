@@ -34,6 +34,7 @@ function formatAddress(user) {
                     `
     return address
 }
+// in the future, using JavaScript Date object would be preferred
 function formatBirthday(dob){
     const dobRegex = /^(\d{4})-(\d{2})-(\d{2})/
     const birthday = dob.match(dobRegex);
